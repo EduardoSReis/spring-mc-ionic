@@ -13,6 +13,7 @@ import com.dbserver.domain.Cidade;
 import com.dbserver.domain.Cliente;
 import com.dbserver.domain.Endereco;
 import com.dbserver.domain.Estado;
+import com.dbserver.domain.ItemPedido;
 import com.dbserver.domain.Pagamento;
 import com.dbserver.domain.PagamentoComBoleto;
 import com.dbserver.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.dbserver.repositories.CidadeRepository;
 import com.dbserver.repositories.ClienteRepository;
 import com.dbserver.repositories.EnderecoRepository;
 import com.dbserver.repositories.EstadoRepository;
+import com.dbserver.repositories.ItemPedidoRepository;
 import com.dbserver.repositories.PagamentoRepository;
 import com.dbserver.repositories.PedidoRepository;
 import com.dbserver.repositories.ProdutoRepository;
@@ -55,6 +57,9 @@ public class SpringIonicApplication implements CommandLineRunner {
 	
 	@Autowired
 	private PagamentoRepository pagamentoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(SpringIonicApplication.class, args);
@@ -119,6 +124,21 @@ public class SpringIonicApplication implements CommandLineRunner {
 		
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped1, p2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+		
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
+		
+		
 		
 		
 	}
